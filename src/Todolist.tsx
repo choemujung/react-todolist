@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
+import ToDo from "./ToDo";
 
-function Todolist() {
-    interface workObj{
-        id:number,
-        memo:string;
-    }
+type Todo = {
+    id: number;
+    task: string;
+};
 
-    const [work, setWork] = useState<workObj>({id: 0, memo:'sdf'});
-
-    let workList: workObj[];
-
-    return (
-        <div>
-            {work.id}{work.memo}
-        </div>
-    );
-
+type ToDoList ={
+    taskList: Todo[];
 }
 
-export default Todolist;
+function ToDoList({taskList}:ToDoList) {
+    return (
+        <>
+            {taskList.map(task => (
+                <ToDo task={task.task} key={task.id}/>
+            ))}
+        </>
+    )
+}
+
+export default ToDoList;
