@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Item } from "./Types";
 
-type Todo = {
-    task: string;
-};
+interface TaskProps {
+    task: Item;
+}
 
-function ToDo({task}: Todo) {
+function Task({task}: TaskProps) {
     const [checked, setCheck] = useState<boolean>(false);
 
     const checkHandler = () => {
         checked? setCheck(false):setCheck(true);
     }
+
     return (
         <div>
             <input type={"checkbox"} onChange={checkHandler}/>
             <span style={{
-                textDecorationLine: checked ? 'line-through':'none'
-            }}>{task}</span>
+                textDecorationLine: checked ? 'line`-through':'none'
+            }}>{task.text}</span>
         </div>
     )
 }
 
-export default ToDo;
+export default Task;

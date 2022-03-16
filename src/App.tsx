@@ -1,42 +1,26 @@
 import React, { MutableRefObject, useRef, useState } from 'react';
 import './App.css';
-import ToDoList from './ToDoList'
-
-type ToDo = {
-  id: number,
-  task: string;
-}
+import Tasks from './Tasks';
+import { Item } from './Types';
 
 function App() {
-
-  const [task, setTask] = useState<ToDo>(
-    {
-      id: 0,
-      task: ''
-    }
-  )
-
   const nextId:MutableRefObject<number> = useRef<number>(1);
+  const inputText = useRef<HTMLInputElement>(null);
+  const [tasks, setTasks] = useState<Item[]>([]);
 
-  const [tasks, setTasks] = useState<ToDo[]>([]);
-
-  const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setTask({
-      ...task,
-      task:e.target.value
-    });
-  };
-
+  // const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  //   inputText.current = e.target.value;
+  //   console.log(inputText.current );
+  // }
   const onCreate = () => {
-    const newTask:ToDo = {
-      id: nextId.current,
-      task: task.task
-    };
-    setTasks([...tasks, newTask]);
-    setTask({
-      ...task,
-      task:''
-    })
+    if (inputText.current != null) {
+      const newTask:Item = {
+        id: nextId.current++,
+        text: inputText.current.value
+      };
+      inputText.current.value = '';
+      setTasks([...tasks, newTask]);
+    }
   }
 
   const onKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => {
@@ -45,11 +29,14 @@ function App() {
     }
   }
 
+  const onRemove = (id:number) => {
+  }
+
   return (
     <div onKeyPress={onKeyPress}>
-      <input name="task" placeholder='할일추가' onChange={onChange} value={task.task}/>
+      <input placeholder='할일추가' ref={inputText} />
       <button onClick={onCreate}>등록</button><br/>
-      {tasks.length > 0 ? <ToDoList taskList={tasks}/> : null}
+      <Tasks tasks={tasks}/>
     </div>
   );
 }
