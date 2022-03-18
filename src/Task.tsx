@@ -8,7 +8,7 @@ interface TaskProps {
 }
 
 function Task({task, onRemove, onUpdate}: TaskProps) {
-    const editText = useRef<HTMLInputElement>(null);
+    const editText = useRef<HTMLInputElement>(null);    
     const [isChecked, setCheck] = useState<boolean>(false);
     const [isEditing, setEdit] = useState<boolean>(false);
     const checkHandler = () => {
@@ -27,16 +27,18 @@ function Task({task, onRemove, onUpdate}: TaskProps) {
         setEdit(false);
     }
     
+    // 컴포넌트로 만든 inputText를 여기서 사용할 수 있도록 수정 필요.
     return (
         <div>
             {
-                isEditing ? 
-                <input ref={editText} onBlur={onBlur}></input> : 
+                isEditing ? // isEditing이 true면 <input>, false면 <Task>. 
+                <input ref={editText} onBlur={onBlur} ></input> : /* 수정 상태일때 input이 포커스를 잃으면 onUpdate 실행. 수정 눌렀을 때 기존 텍스트 유지하는 기능 필요 */
                 <span>
                 <input type={"checkbox"} onChange={checkHandler}/>
                 <span style={{
                     textDecorationLine: isChecked ? 'line-through':'none'
-                }}>{task.text}</span>
+                }}>{task.text}            <button onClick={editHandler}>수정</button>
+                <button onClick={()=>onRemove(task.id)}>삭제</button></span>
                 </span>
             }
             {/*<span>
@@ -46,8 +48,8 @@ function Task({task, onRemove, onUpdate}: TaskProps) {
                 }}>{task.text}</span>
             </span>*/}
 
-            <button onClick={editHandler}>수정</button>
-            <button onClick={()=>onRemove(task.id)}>삭제</button>
+{/*             s<button onClick={editHandler}>수정</button>
+            <button onClick={()=>onRemove(task.id)}>삭제</button> */}
         </div>
     )
 }

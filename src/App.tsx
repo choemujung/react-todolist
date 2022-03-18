@@ -8,6 +8,7 @@ function App() {
   const nextId:MutableRefObject<number> = useRef<number>(1);
   const [tasks, setTasks] = useState<Item[]>([]);
 
+  // task 삽입
   const onCreate = (newText:string):void => {
     const newTask:Item = {
       id: nextId.current++,
@@ -16,10 +17,11 @@ function App() {
     setTasks([...tasks, newTask]);
   }
 
+  // task 삭제
   const onRemove = (id:number):void => {
     setTasks(tasks.filter(task=>task.id !== id));
   }
-
+  // task 업데이트
   const onUpdate = (newId:number, newText:string) => {
     const newTasks = tasks.map((task:Item) => (task.id === newId) ? {id: newId, text: newText} : task);
     setTasks(newTasks);
