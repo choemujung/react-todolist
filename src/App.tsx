@@ -1,5 +1,4 @@
-import React, { MutableRefObject, useRef, useState } from 'react';
-import './App.css';
+import { MutableRefObject, useRef, useState } from 'react';
 import Tasks from './Tasks';
 import { Item } from './Types';
 import InputText from './InputText';
